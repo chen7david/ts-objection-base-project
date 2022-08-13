@@ -1,0 +1,1 @@
+# ts-knex-base-project
