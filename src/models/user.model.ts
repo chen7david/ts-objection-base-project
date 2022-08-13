@@ -1,7 +1,7 @@
-import Model from './base.model'
+import { Model, ModelObject } from './base.model'
 import bcrypt from 'bcrypt'
 import { digits } from '../utils/crypto.utils'
-import { QueryContext, ModelOptions, ModelObject } from 'objection'
+import { QueryContext, ModelOptions } from 'objection'
 import { Role } from './role.model'
 
 const BCRYPT_ROUNDS = 12

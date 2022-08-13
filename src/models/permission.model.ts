@@ -1,5 +1,4 @@
-import Model from './base.model'
-import { ModelObject } from 'objection'
+import { Model, ModelObject } from './base.model'
 import { Role } from './role.model'
 
 export class Permission extends Model {
