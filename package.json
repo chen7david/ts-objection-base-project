@@ -1,0 +1,52 @@
+{
+  "name": "ts-knex-base-project",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --build --clean && tsc",
+    "format": "prettier --write",
+    "start": "NODE_ENV=production node dist/app.js",
+    "app": "nodemon --watch './**/*.ts' --exec 'ts-node' src/app.ts",
+    "dev": "NODE_ENV=development npm run app",
+    "prod": "NODE_ENV=production npm run app",
+    "test": "jest",
+    "knex": "./node_modules/.bin/knex --knexfile src/database/knexfile.ts",
+    "knex:dev": "NODE_ENV=development npm run knex",
+    "knex:prod": "NODE_ENV=production npm run knex"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chen7david/ts-knex-base-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chen7david/ts-knex-base-project/issues"
+  },
+  "homepage": "https://github.com/chen7david/ts-knex-base-project#readme",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/jest": "^28.1.6",
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^18.7.2",
+    "@types/pluralize": "^0.0.29",
+    "eslint": "^8.21.0",
+    "jest": "^28.1.3",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
+    "sqlite3": "^5.0.11",
+    "ts-jest": "^28.0.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
+    "knex": "^2.2.0",
+    "lodash": "^4.17.21",
+    "objection": "^3.0.1",
+    "pluralize": "^8.0.0"
+  }
+}
