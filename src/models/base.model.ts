@@ -13,5 +13,5 @@ export class Model extends BaseModel {
 
 export default Model
 
-type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>
+export type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>
 export type ModelObject<T> = Omit<NonFunctionProperties<T>, 'QueryBuilderType'>
