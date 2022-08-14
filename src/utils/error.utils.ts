@@ -8,8 +8,9 @@ export class ApiError extends Error {
     this.message = message
   }
 
-  static internal(message: string = 'something went worng') {
-    return new ApiError(500, message)
+  static internal(error?: any) {
+    if (error) console.log(error)
+    return new ApiError(500, 'something went worng')
   }
 
   static notFound(message: string = 'resource not found') {
