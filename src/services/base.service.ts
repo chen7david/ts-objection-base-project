@@ -1,6 +1,7 @@
-import { type ModelClass, UniqueViolationError } from 'objection'
+import { ModelClass, UniqueViolationError, Model } from 'objection'
 import { ApiError } from '../utils/error.utils'
-import { paginate } from '../utils/format.utils'
+import { paginate, Paginated } from '../utils/format.utils'
+import { ModelObject } from '../models/base.model'
 
 export class ModelService<T extends ModelClass<any>> {
   public model: T
@@ -9,24 +10,24 @@ export class ModelService<T extends ModelClass<any>> {
     this.model = model
   }
 
-  async find(page?: number, limit?: number): Promise<T[]> {
+  async find(page?: number, limit?: number): Promise<Paginated<T>> {
     const items = await this.model.query()
     return page ? paginate(items, page, limit) : items
   }
 
-  async findOne(id: number | string): Promise<InstanceType<T> | null> {
+  async findOne(id: number | string): Promise<InstanceType<T> | undefined> {
     return this.findOneByKey('id', id)
   }
 
-  async findOneByKey(key: string, value: string | number): Promise<InstanceType<T> | null> {
+  async findOneByKey(key: string, value: string | number): Promise<InstanceType<T> | undefined> {
     return this.model.query().where(key, value).first()
   }
 
-  async create(data: T): Promise<InstanceType<T> | null> {
+  async create(data: ModelObject<InstanceType<T>>): Promise<InstanceType<T>> {
     return this.model.query().insert(data)
   }
 
-  async $patch(instance: InstanceType<T> | null, data: object): Promise<number> {
+  async $patch(instance: Model | undefined, data: object): Promise<number> {
     if (!instance) throw ApiError.invalidId()
     return instance.$query().patch(data)
   }
@@ -36,7 +37,7 @@ export class ModelService<T extends ModelClass<any>> {
     return this.$patch(instance, data)
   }
 
-  async $delete(instance: InstanceType<T> | null): Promise<number> {
+  async $delete(instance: Model | undefined): Promise<number> {
     if (!instance) throw ApiError.invalidId()
     return instance.$query().delete()
   }
@@ -48,7 +49,7 @@ export class ModelService<T extends ModelClass<any>> {
 
   /* RELATIONS */
 
-  async $getRelated(instance: InstanceType<T> | null, relationName: string) {
+  async $getRelated(instance: InstanceType<T> | undefined, relationName: string) {
     if (!instance) throw ApiError.invalidId()
     const instances = await instance.$relatedQuery(relationName)
     return instances
@@ -60,7 +61,7 @@ export class ModelService<T extends ModelClass<any>> {
   }
 
   async $relate(
-    instance: InstanceType<T> | null,
+    instance: InstanceType<T> | undefined,
     relationName: string,
     relationId: number | string
   ) {
@@ -82,11 +83,7 @@ export class ModelService<T extends ModelClass<any>> {
     return this.$relate(instance, relationName, relationId)
   }
 
-  async $unrelate(
-    instance: InstanceType<T> | null,
-    relationName: string,
-    relationId: number | string
-  ) {
+  async $unrelate(instance: Model | undefined, relationName: string, relationId: number | string) {
     try {
       if (!instance) throw ApiError.invalidId()
       const instances = await instance

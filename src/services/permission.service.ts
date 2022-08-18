@@ -1,6 +1,7 @@
 import { ModelService } from './base.service'
-import { Role } from '../models/role.model'
+import { Permission } from '../models/permission.model'
+import { ModelClass } from 'objection'
 
-export class RoleService extends ModelService<any> {}
+export class PermissionService extends ModelService<ModelClass<Permission>> {}
 
-export const roleService = new RoleService(Role)
+export const permissionService = new PermissionService(Permission)
